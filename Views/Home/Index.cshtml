@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome!</h1>
+    <p><a href="https://www.linkedin.com/in/henry-sukendro">A Dev Exercise by Henry Sukendro</a></p>
+
+    <p>
+        @Html.ActionLink("View Licensed Agents", "Index", "Agent", null, new { @class = "btn btn-success" })
+    </p>
+
+    <div>
+        <img src="~/pix/NCREC.jpg" alt="NCREC Logo" style="max-width:300px; margin-top:20px;" />
+    </div>
+</div>

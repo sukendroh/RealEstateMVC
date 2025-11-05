@@ -1,0 +1,29 @@
+# Ignore build outputs
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+# Ignore publish output
+wwwroot/dist/
+wwwroot/node_modules/
+
+# Ignore Rider and JetBrains IDE files
+.idea/
+
+# Ignore Mac system files
+.DS_Store

@@ -1,0 +1,64 @@
+@model IEnumerable<Agent>
+
+@{
+    ViewBag.Title = "Agents";
+}
+
+<h2>Licensed Agents</h2>
+
+<p>
+    @Html.ActionLink("Create New Agent", "Create", "Agent")
+</p>
+
+<input type="text" id="searchBox" placeholder="Search by last name..." />
+<button id="searchBtn">Search</button>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Company</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var agent in Model)
+    {
+        <tr>
+            <td>@agent.FirstName @agent.LastName</td>
+            <td>@agent.Email</td>
+            <td>@agent.Company</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = agent.AgentID }) |
+                @using (Html.BeginForm("Delete", "Agent", FormMethod.Post))
+                {
+                    @Html.Hidden("id", agent.AgentID)
+                    <input type="submit" value="Delete" onclick="return confirm('Delete this agent?');" />
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="searchResults"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchBtn').click(function () {
+                var lastName = $('#searchBox').val();
+                $.ajax({
+                    url: '@Url.Action("Search", "Agent")',
+                    data: { lastName: lastName },
+                    success: function (data) {
+                        var html = '<ul>';
+                        data.forEach(function (a) {
+                            html += '<li>' + a.FirstName + ' ' + a.LastName + '</li>';
+                        });
+                        html += '</ul>';
+                        $('#searchResults').html(html);
+                    }
+                });
+            });
+        });
+    </script>
+}
