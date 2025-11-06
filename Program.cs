@@ -6,9 +6,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Register RealEstateContext with SQL Server provider
-builder.Services.AddDbContext<RealEstateContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Conditionally register RealEstateContext
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    // Use InMemory provider for integration tests
+    builder.Services.AddDbContext<RealEstateContext>(options =>
+        options.UseInMemoryDatabase("IntegrationDb"));
+}
+else
+{
+    // Use SQL Server provider for normal development/production
+    builder.Services.AddDbContext<RealEstateContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 var app = builder.Build();
 
@@ -32,3 +42,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+
+// Needed for WebApplicationFactory<T> in integration tests
+public partial class Program { }
